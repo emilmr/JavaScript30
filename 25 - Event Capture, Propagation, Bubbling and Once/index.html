@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+
+  div {
+    width:100%;
+    padding:100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background:mistyrose;
+  }
+
+  .three {
+    background:coral;
+  }
+</style>
+
+<button></button>
+
+<script>
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+  function logText(e) {
+    console.log(this.classList.value);
+    //e.stopPropagation(); //stop bubbling back up the elements
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    once: true //listen for a single click and then unbind itself
+    //capture: true //run the logText on the capture on the way down, rather than on the bubble up (default is false)
+  }));
+
+  // capture goes top down - from top element down to the element that you clicked on and capture those events
+  // then it bubbles up, triggering events as it goes back up to top element
+
+  button.addEventListener('click', () => {
+    console.log('You clicked it!');
+  }, {
+    once: true
+  })
+</script>
+</body>
+</html>
